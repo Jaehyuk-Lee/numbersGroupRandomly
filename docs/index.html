@@ -16,6 +16,11 @@
 <div id="result"></div>
 <div id="error"></div>
 <script>
+    document.getElementById('spliter').addEventListener('keydown', function (e){
+        let keyCode = e.keyCode ? e.keyCode : e.which;
+        if(keyCode == '13')
+            run();
+    })
     function run(){
         let a = parseInt(document.getElementById('total').value);
         let b = parseInt(document.getElementById('spliter').value);
@@ -38,6 +43,7 @@
         for(let i=0;i<b;i++)
         {
             result[i] = [];
+            resultDiv.innerHTML+=(i+1)+"일: "
             for(let j=0; j<a/b-divide ;j++)
             {
                 let num = ~~(Math.random() * (a-(a/b*i)-j));
