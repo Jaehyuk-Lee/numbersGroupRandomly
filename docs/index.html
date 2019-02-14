@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>랜덤 그룹짓기</title>
+        <style>
+            div#result{
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+전체 문항 수: <input type="text" id="total"><br>
+나눠서 할 날짜 수: <input type="text" id="spliter"><br>
+<button onclick="javascript:run();">실행하기</button><br><br>
+<div id="result"></div>
+<div id="error"></div>
+<script>
+    function run(){
+        let a = parseInt(document.getElementById('total').value);
+        let b = parseInt(document.getElementById('spliter').value);
+
+        let resultDiv = document.getElementById('result');
+        let errorDiv = document.getElementById('error');
+
+        resultDiv.innerHTML = "";
+        errorDiv.innerHTML = "";
+        if(a<b){
+            errorDiv.innerHTML = "전체 문항 수가 나눌 날짜 수보다 커야 합니다.";
+            return;
+        }
+        let result = [];
+        let numbers = [];
+        for(let i=0;i<a;i++)
+        numbers[i] = i+1;
+        resultDiv.innerHTML = "";
+        let divide = a%b==0 ? 0 : 1;
+        for(let i=0;i<b;i++)
+        {
+            result[i] = [];
+            for(let j=0; j<a/b-divide ;j++)
+            {
+                let num = ~~(Math.random() * (a-(a/b*i)-j));
+                result[i][j] = numbers[num]
+                numbers.splice(num,1)
+            }
+            result[i].sort(function(x, y){return x - y});
+            resultDiv.innerHTML+=result[i] + "<br>";
+        }
+        if(a%b!=0){
+            let pl = numbers.length == 1 ? "" : "들";
+            errorDiv.innerHTML += "<br>전체 문항 수가 나눌 날짜로 나누어 떨어지지 않아 일부 항목에 문제가 발생했습니다.";
+            errorDiv.innerHTML += "<br>배정되지 않은 숫자" + pl +": " + numbers;
+        }
+    }
+
+</script>
+</html>
