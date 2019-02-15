@@ -4,6 +4,17 @@
     <style>
         div#result{
             border: 1px solid black;
+            display:inline-block;
+        }
+        @media only screen and (max-width: 768px) {
+            * {
+                font-size: 20px;
+            }
+        }
+        @media only screen and (max-width: 320px) {
+            * {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -40,23 +51,38 @@
         numbers[i] = i+1;
         resultDiv.innerHTML = "";
         let divide = a%b==0 ? 0 : 1;
-        for(let i=0;i<b;i++)
-        {
+        let tmpResult = "";
+        for(let i=0;i<b;i++){
             result[i] = [];
-            resultDiv.innerHTML+=(i+1)+"일: "
-            for(let j=0; j<a/b-divide ;j++)
-            {
+            tmpResult+=(i+1)+"일: "
+            for(let j=0; j<a/b-divide ;j++){
                 let num = ~~(Math.random() * (a-(a/b*i)-j));
                 result[i][j] = numbers[num]
                 numbers.splice(num,1)
             }
             result[i].sort(function(x, y){return x - y});
-            resultDiv.innerHTML+=result[i] + "<br>";
+            for(let j=0; j<a/b-divide; j++){
+                tmpResult+=result[i][j];
+                if(j>=a/b-divide-1) break;
+                tmpResult+=", ";
+            }
+            tmpResult+="<br>";
         }
+        resultDiv.innerHTML += tmpResult;
         if(a%b!=0){
             let pl = numbers.length == 1 ? "" : "들";
             errorDiv.innerHTML += "<br>전체 문항 수가 나눌 날짜로 나누어 떨어지지 않아 일부 항목에 문제가 발생했습니다.";
-            errorDiv.innerHTML += "<br>배정되지 않은 숫자" + pl +": " + numbers;
+            errorDiv.innerHTML += "<br>배정되지 않은 숫자" + pl +": ";
+            let tmpError = "";
+            for(let i=0;i<numbers.length;i++){
+                tmpError += numbers[i];
+                if(i >= numbers.length-1) {
+                    errorDiv.innerHTML += tmpError;
+                    break;
+                }
+                tmpError += ", ";
+            }
+
         }
     }
 
